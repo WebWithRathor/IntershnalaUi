@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import LogDetails from './Partials/LogDetails'
 import { Link } from 'react-router-dom'
 
 const SignUp = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [number, setNumber] = useState('');
     return (
-        <div className='h-[110vh] relative w-full'>
+        <div className='min-h-screen h-[110vh] relative w-full'>
             <Link to='/'>
                 <i className="cursor-pointer text-2xl left-10 top-10 absolute fa-solid fa-arrow-left-long block ml-auto "></i>
             </Link>
@@ -14,7 +19,19 @@ const SignUp = () => {
                 <h2 className='text-center text-[1.6rem] font-normal mt-4'>1,50,000+ companies hiring on Internshala</h2>
             </div>
             <form action="" className='max-w-[32rem] w-[30rem] shadow-md shadow-blue-100 rounded-lg mx-auto my-10 bg-white px-8 py-8'>
-                <LogDetails btn={'Sign Up'} />
+            <LogDetails
+                        btn={'Sign Up'}
+                        email={email}
+                        setEmail={setEmail}
+                        password={password}
+                        setPassword={setPassword}
+                        firstName={firstName}
+                        setFirstName={setFirstName}
+                        lastName={lastName}
+                        setLastName={setLastName}
+                        number={number}
+                        setNumber={setNumber}
+                    />
             </form>
         </div>
     )
