@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import LogDetails from './Partials/LogDetails'
 import { Link } from 'react-router-dom'
+import { Instance } from '../utils/Axios';
 
 const SignUp = () => {
     const [email, setEmail] = useState('');
@@ -8,6 +9,22 @@ const SignUp = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [number, setNumber] = useState('');
+
+    const submitHandler = (e) => {
+        e.preventDefault();
+        employeSignUp();
+
+    }
+    const employeSignUp = async () => {
+        try {
+            const data = await Instance.post('/student');
+            console.log(data);
+        } catch (error) {
+            console.log(error.response.data.error);
+        }
+    }
+
+
     return (
         <div className='min-h-screen h-[110vh] relative w-full'>
             <Link to='/'>
@@ -18,7 +35,7 @@ const SignUp = () => {
                 <h1 className='font-bold text-5xl text-zinc-700 text-center'>Sign-up and apply for free</h1>
                 <h2 className='text-center text-[1.6rem] font-normal mt-4'>1,50,000+ companies hiring on Internshala</h2>
             </div>
-            <form action="" className='max-w-[32rem] w-[30rem] shadow-md shadow-blue-100 rounded-lg mx-auto my-10 bg-white px-8 py-8'>
+            <form onSubmit={submitHandler} className='max-w-[32rem] w-[30rem] shadow-md shadow-blue-100 rounded-lg mx-auto my-10 bg-white px-8 py-8'>
             <LogDetails
                         btn={'Sign Up'}
                         email={email}
