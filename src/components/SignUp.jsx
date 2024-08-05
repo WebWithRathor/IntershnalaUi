@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import LogDetails from './Partials/LogDetails'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Instance } from '../utils/Axios';
 
 const SignUp = () => {
@@ -9,20 +9,31 @@ const SignUp = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [number, setNumber] = useState('');
+    const navigate = useNavigate();
 
     const submitHandler = (e) => {
         e.preventDefault();
-        employeSignUp();
-
+        studentSignUp();
     }
-    const employeSignUp = async () => {
+
+    const studentSignUp = async () => {
         try {
-            const data = await Instance.post('/student');
-            console.log(data);
+            const {data} = await Instance.post('/student/signup',{
+                email,
+                password, 
+                firstname :firstName, 
+                lastname:lastName, 
+                contact:number
+            });
+            localStorage.setItem('isLoggedIn', true);
+            navigate('/');
+            
         } catch (error) {
-            console.log(error.response.data.error);
+            alert(error.response.data.error);
         }
     }
+
+
 
 
     return (
