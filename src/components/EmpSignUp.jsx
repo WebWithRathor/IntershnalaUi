@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import LogDetails from './Partials/LogDetails'
 import { useNavigate } from 'react-router-dom';
 import StatsSection from './Partials/StatsSection';
@@ -12,25 +12,21 @@ const EmpSignUp = () => {
     const [lastName, setLastName] = useState('');
     const [number, setNumber] = useState('');
 
-    const submitHandler = async (e) => {
+    const submitHandler = (e) => {
         e.preventDefault();
-        employeSignUp();
-
+        
     }
     const employeSignUp = async () => {
         try {
-            const data = await Instance.post('/employe/signup', {
-                email : email,
-                password : password,
-                firstname:firstName,
-                lastname:lastName,
-                contact:number,
-            });
+            const data = await Instance.post('/student/signup');
         } catch (error) {
             console.log(error.response.data.error);
         }
     }
-
+    useEffect(()=>{
+        employeSignUp();
+    },[])
+    
 
 
     return (
