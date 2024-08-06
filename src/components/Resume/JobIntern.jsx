@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { Instance } from '../../utils/Axios';
+import { useDispatch } from 'react-redux';
+import { loadStudent } from '../../store/actions/studentAction';
 
 const JobIntern = ({ type }) => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [profile, setprofile] = useState('');
     const [workingHome, setworkingHome] = useState(false);
     const [description, setdescription] = useState('')
@@ -25,7 +28,7 @@ const JobIntern = ({ type }) => {
                 location : workingHome ? "Work from Home" : location,
                 type
             });
-            console.log(data);
+            dispatch(loadStudent());
             navigate(-1)
         } catch (error) {
             alert(error.response.data.error.message);
