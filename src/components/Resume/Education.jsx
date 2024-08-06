@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Instance } from '../../utils/Axios';
+import { useDispatch } from 'react-redux';
+import { loadStudent } from '../../store/actions/studentAction';
 
 const Education = () => {
     
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [organizationName, setorganizationName] = useState("");
     const [startYear, setstartYear] = useState("");
     const [endYear, setendYear] = useState("");
@@ -27,6 +30,7 @@ const Education = () => {
                 resultType,
                 result
             });
+            dispatch(loadStudent());
             navigate(-1)
         } catch (error) {
             console.log(error);
@@ -44,9 +48,6 @@ const Education = () => {
         }
         if(startYear > 2024){
             setstartYear(2024);
-        }
-        if(startYear > endYear && endYear != ''){
-            setstartYear(endYear - 4);
         }
     },[resultType,endYear,startYear,result])
 
