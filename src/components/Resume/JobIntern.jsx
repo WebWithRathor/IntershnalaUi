@@ -36,7 +36,7 @@ const JobIntern = ({ type }) => {
     }
 
     useEffect(() => {
-        if (workingHome) setlocation('')
+        if (workingHome)setlocation('')
     }, [workingHome])
 
     return (
