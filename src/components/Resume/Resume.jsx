@@ -17,7 +17,7 @@ const Resume = () => {
         <>
             <Nav />
             <div className='h-full w-full pt-32'>
-                <h1 onClick={() => navigate(-1)} className='flex items-center gap-2 text-blue-600 text-[1vw] font-medium  absolute left-20' > <i className='fa-solid fa-arrow-left-long mt-1'></i> Back</h1>
+                <h1 onClick={() => navigate(-1)} className='flex cursor-pointer items-center gap-2 text-blue-600 text-[1vw] font-medium  absolute left-20' > <i className='fa-solid fa-arrow-left-long mt-1'></i> Back</h1>
                 <h1 className='text-3xl font-medium text-center mt-10'>Resume</h1>
                 {student ?
                     <div className='w-3/5 mt-7 mb-10 border mx-auto rounded-lg overflow-hidden'>
@@ -25,7 +25,7 @@ const Resume = () => {
                         <div className="details px-20 h-full">
                             <div className="info flex justify-between pt-10 pb-8 border-b">
                                 <div className="">
-                                    <h1 className='text-3xl font-medium capitalize'>{student.firstname} {student.lastname}</h1>
+                                    <h1 className='text-3xl font-medium capitalize'>{student.firstname} {student.lastname} <button onClick={()=>navigate('profile')} className='bg-blue-500 px-3 py-1 rounded font-semibold text-white text-sm'>Edit</button> </h1>
                                     <h1 className='text-gray-600 pt-1' >{student.email}</h1>
                                     <h1 className='text-gray-600 pt-0.5 ' >{student.contact}</h1>
                                     <h1 className='text-gray-600 pt-0.5 ' >{student.city ?? 'Bhopal'}</h1>
@@ -38,10 +38,10 @@ const Resume = () => {
                                     {student.resume.education.map((e, i) => {
                                         return <div key={e.id} className="dets relative">
                                             <h1 className='font-semibold'>{e.organizationName}</h1>
-                                            <h2 className='text-gray-600'>{e.degree} {e.stream} <span className='text-sm'>{e.result != '' ? ("( " + e.result + " " + e.resultType + " )") : ''}</span></h2>
+                                            <h2 className='text-gray-600'>{e.degree} {e.stream && ", " + e.stream} <span className='text-sm'>{e.result != '' ? ("( " + e.result + " " + e.resultType + " )") : ''}</span></h2>
                                             <h2 className='text-gray-600'>{e.startYear} - {e.endYear}</h2>
                                             <div className="icons flex gap-3 absolute right-5 top-2">
-                                                <i className="fa-solid fa-pen-to-square hover:text-gray-900 text-gray-600 cursor-pointer"></i>
+                                                <Link to='education/update' state={e}  className="fa-solid fa-pen-to-square hover:text-gray-900 text-gray-600 cursor-pointer"></Link>
                                                 <i onClick={(elem)=>DeleteHandler(e.id,elem,'edu')} className="fa-solid fa-trash hover:text-gray-900 text-gray-600 cursor-pointer"></i>
                                             </div>
                                         </div>
@@ -58,8 +58,9 @@ const Resume = () => {
                                             <h1 className='font-semibold'>{e.profile} ({e.type})</h1>
                                             <h2 className='text-gray-600'>{e.organizationName} ( {e.location} ) </h2>
                                             <h2 className='text-gray-600'>{e.startYear} - {e.endYear}</h2>
+                                            <p className='text-gray-600 text-sm mt-1'>{e.description ? 'Description : ' + e.description : ''}</p>
                                             <div className="icons flex gap-3 absolute right-5 top-2">
-                                                <i className="fa-solid fa-pen-to-square hover:text-gray-900 text-gray-600 cursor-pointer"></i>
+                                                <Link to={`${e.type}/update`} state={e}   className="fa-solid fa-pen-to-square hover:text-gray-900 text-gray-600 cursor-pointer"></Link>
                                                 <i onClick={(elem)=>DeleteHandler(e.id,elem,'exp')} className="fa-solid fa-trash hover:text-gray-900 text-gray-600 cursor-pointer"></i>
                                             </div>
                                         </div>
@@ -79,7 +80,7 @@ const Resume = () => {
                                             return <div key={i} className='relative'>
                                                 <li  className='-mt-1.5 font-medium text-gray-700' >{e.description}</li>
                                                 <div className="icons flex gap-3 absolute right-5 top-2">
-                                                    <i className="fa-solid fa-pen-to-square hover:text-gray-900 text-gray-600 cursor-pointer"></i>
+                                                    <Link to='responsibility/update' state={e}  className="fa-solid fa-pen-to-square hover:text-gray-900 text-gray-600 cursor-pointer"></Link>
                                                     <i onClick={(elem)=>DeleteHandler(e.id,elem,'resp')} className="fa-solid fa-trash hover:text-gray-900 text-gray-600 cursor-pointer"></i>
                                                 </div>
                                             </div>
@@ -97,7 +98,7 @@ const Resume = () => {
                                             <h2 className='text-gray-600'>{e.organizationName} ( {e.location} ) </h2>
                                             <h2 className='text-gray-600'>{e.startYear} - {e.endYear}</h2>
                                             <div className="icons flex gap-3 absolute right-5 top-2">
-                                                <i className="fa-solid fa-pen-to-square hover:text-gray-900 text-gray-600 cursor-pointer"></i>
+                                                <Link to='training/update' state={e}  className="fa-solid fa-pen-to-square hover:text-gray-900 text-gray-600 cursor-pointer"></Link>
                                                 <i onClick={(elem)=>DeleteHandler(e.id,elem,'cour')} className="fa-solid fa-trash hover:text-gray-900 text-gray-600 cursor-pointer"></i>
                                             </div>
                                         </div>
@@ -114,7 +115,7 @@ const Resume = () => {
                                             <p className='text-gray-600 w-3/4 text-sm mb-1'>{e.description}</p>
                                             <h2 className='text-gray-600'>{e.startMonth} - {e.endMonth}</h2>
                                             <div className="icons flex gap-3 absolute right-5 top-2">
-                                                <i className="fa-solid fa-pen-to-square hover:text-gray-900 text-gray-600 cursor-pointer"></i>
+                                                <Link to='projects/update' state={e}  className="fa-solid fa-pen-to-square hover:text-gray-900 text-gray-600 cursor-pointer"></Link>
                                                 <i onClick={(elem)=>DeleteHandler(e.id,elem,'pro')} className="fa-solid fa-trash hover:text-gray-900 text-gray-600 cursor-pointer"></i>
                                             </div>
                                         </div>
@@ -132,7 +133,7 @@ const Resume = () => {
                                                 className="flex gap-3 items-center justify-center text-gray-700 w-max py-1.5 px-3 bg-gray-200 rounded-md hover:bg-gray-300 focus:outline-none"
                                             >
                                                 {e.Skill}<div className="icons flex gap-2 ">
-                                                    <i className="fa-solid text-sm fa-pen-to-square text-gray-500 hover:text-gray-800"></i>
+                                                    <Link to='skill/update' state={e} className="fa-solid text-sm fa-pen-to-square text-gray-500 hover:text-gray-800"></Link>
                                                     <i onClick={(elem)=>DeleteHandler(e.id,elem,'skill')}  className="fa-solid text-sm fa-trash text-gray-500 hover:text-gray-800"></i>
                                                 </div>
                                             </button>
@@ -149,7 +150,7 @@ const Resume = () => {
                                             <h1 className='font-semibold'> <i className={`${e.WorkIcon} mr-1`} ></i> {e.WorkName}</h1>
                                             <a href={e.url} className='text-sm text-blue-600'>{e.url}</a>
                                             <div className="icons flex gap-3 absolute right-5 top-2">
-                                                <i className="fa-solid fa-pen-to-square hover:text-gray-900 text-gray-600 cursor-pointer"></i>
+                                                <Link to='worksample/update' state={e}  className="fa-solid fa-pen-to-square hover:text-gray-900 text-gray-600 cursor-pointer"></Link>
                                                 <i onClick={(elem)=>DeleteHandler(e.id,elem,'work')} className="fa-solid fa-trash hover:text-gray-900 text-gray-600 cursor-pointer"></i>
                                             </div>
                                         </div>
@@ -165,7 +166,7 @@ const Resume = () => {
                                             return <div key={e.id} className='relative'>
                                                 <li  className='-mt-1.5 font-medium text-gray-700' >{e.description}</li>
                                                 <div className="icons flex gap-3 absolute right-5 top-2">
-                                                    <i className="fa-solid fa-pen-to-square hover:text-gray-900 text-gray-600 cursor-pointer"></i>
+                                                    <Link to='accomplishment/update' state={e}  className="fa-solid fa-pen-to-square hover:text-gray-900 text-gray-600 cursor-pointer"></Link>
                                                     <i onClick={(elem)=>DeleteHandler(e.id,elem,'accomp')} className="fa-solid fa-trash hover:text-gray-900 text-gray-600 cursor-pointer"></i>
                                                 </div>
                                             </div>

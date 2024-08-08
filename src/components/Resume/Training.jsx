@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Instance } from '../../utils/Axios';
 import { useDispatch } from 'react-redux';
 import { loadStudent } from '../../store/actions/studentAction';
 
-const Training = () => {
+const Training = ({update}) => {
+    const details = useLocation().state
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [profile, setprofile] = useState('');
-    const [Online, setOnline] = useState(false);
-    const [description, setdescription] = useState('')
+    const [profile, setprofile] = useState( details && details.profile ||'');
+    const [Online, setOnline] = useState( details && details.location === 'Work from Home' ||false);
+    const [description, setdescription] = useState( details && details.description ||'')
     const [descriptionCount, setdescriptionCount] = useState(description.length);
-    const [startYear, setstartYear] = useState("");
-    const [endYear, setendYear] = useState("");
-    const [organizationName, setorganizationName] = useState('');
-    const [location, setlocation] = useState('');
+    const [startYear, setstartYear] = useState( details && details.startYear ||"");
+    const [endYear, setendYear] = useState( details && details.endYear ||"");
+    const [organizationName, setorganizationName] = useState( details && details.organizationName ||'');
+    const [location, setlocation] = useState( details && details.location != 'Work from Home' && details.location ||'');
 
     const submitHandler = async (e) => {
         e.preventDefault();
         try {
-            const { data } = await Instance.post('/resume/add-cour', {
+            const { data } = await Instance.post(`/resume/${update ? `edit-cour/${details && details.id}` : 'add-cour'}`, {
                 profile, 
                 description, 
                 startYear, 
