@@ -1,27 +1,27 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { Instance } from '../../utils/Axios';
 import { useDispatch } from 'react-redux';
 import { loadStudent } from '../../store/actions/studentAction';
 
-const Education = () => {
-    
+const Education = ({update}) => {
+    const details = useLocation().state
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [organizationName, setorganizationName] = useState("");
-    const [startYear, setstartYear] = useState("");
-    const [endYear, setendYear] = useState("");
-    const [degree, setdegree] = useState("");
-    const [stream, setstream] = useState("");
-    const [resultType, setresultType] = useState('Percentage');
-    const [result, setresult] = useState('');
+    const [organizationName, setorganizationName] = useState(details && details.organizationName || "");
+    const [startYear, setstartYear] = useState(details && details.startYear || "");
+    const [endYear, setendYear] = useState( details && details.endYear || "");
+    const [degree, setdegree] = useState(details && details.degree || "");
+    const [stream, setstream] = useState(details && details.stream || "");
+    const [resultType, setresultType] = useState( details && details.resultType || 'Percentage');
+    const [result, setresult] = useState( details && details.result || '');
 
     
 
     const submitHandler = async (e) => {
         e.preventDefault();
         try {
-            const { data } = await Instance.post('/resume/add-edu', {
+            const { data } = await Instance.post(`/resume/${update ? `edit-edu/${details && details.id}` : 'add-edu'}`, {
                 organizationName,
                 startYear,
                 endYear,
@@ -65,13 +65,13 @@ const Education = () => {
                     <form onSubmit={submitHandler}>
                         <div className="mb-4">
                             <label className="block text-gray-700">Organization Name*</label>
-                            <input onChange={(e) => setorganizationName(e.target.value)} required value={organizationName} type="text" placeholder="e.g. Hindu College" className="mt-1 block w-full border-gray-300 border px-2 py-2 rounded outline-none shadow-sm" />
+                            <input maxLength={30} onChange={(e) => setorganizationName(e.target.value)} required value={organizationName} type="text" placeholder="e.g. Hindu College" className="mt-1 block w-full border-gray-300 border px-2 py-2 rounded outline-none shadow-sm" />
                         </div>
 
                         <div className="grid grid-cols-2 gap-4 mb-4">
                             <div>
                                 <label className="block text-gray-700">Start year*</label>
-                                <input onChange={(e) => setstartYear(e.target.value)} required value={startYear} type='Number' placeholder='start year' className="mt-1 block w-full border-gray-300 border px-2 py-2 rounded outline-none shadow-sm" />
+                                <input  onChange={(e) => setstartYear(e.target.value)} required value={startYear} type='Number' placeholder='start year' className="mt-1 block w-full border-gray-300 border px-2 py-2 rounded outline-none shadow-sm" />
                             </div>
                             <div>
                                 <label className="block text-gray-700">End year</label>
@@ -83,11 +83,11 @@ const Education = () => {
                         <div className="grid grid-cols-2 gap-4 mb-4">
                             <div>
                                 <label className="block text-gray-700">Degree*</label>
-                                <input onChange={(e) => setdegree(e.target.value)} required value={degree} type="text" placeholder="e.g. B.Sc (Hons.)" className="mt-1 block w-full border-gray-300 border px-2 py-2 rounded outline-none shadow-sm" />
+                                <input maxLength={20} onChange={(e) => setdegree(e.target.value)} required value={degree} type="text" placeholder="e.g. B.Sc (Hons.)" className="mt-1 block w-full border-gray-300 border px-2 py-2 rounded outline-none shadow-sm" />
                             </div>
                             <div>
                                 <label className="block text-gray-700">Stream <span className="text-gray-400">(Optional)</span></label>
-                                <input onChange={(e) => setstream(e.target.value)} value={stream} type="text" placeholder="e.g. Economics" className="mt-1 block w-full border-gray-300 border px-2 py-2 rounded outline-none shadow-sm" />
+                                <input maxLength={30} onChange={(e) => setstream(e.target.value)} value={stream} type="text" placeholder="e.g. Economics" className="mt-1 block w-full border-gray-300 border px-2 py-2 rounded outline-none shadow-sm" />
                             </div>
                         </div>
 
