@@ -1,25 +1,27 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Instance } from '../../utils/Axios';
 import { useDispatch } from 'react-redux';
 import { loadStudent } from '../../store/actions/studentAction';
 
-const JobIntern = ({ type }) => {
+const JobIntern = ({ type, update }) => {
+    const details = useLocation().state
+    
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [profile, setprofile] = useState('');
-    const [workingHome, setworkingHome] = useState(false);
-    const [description, setdescription] = useState('')
+    const [profile, setprofile] = useState(details && details.profile || '');
+    const [workingHome, setworkingHome] = useState(details && details.location === 'Work from Home' || false);
+    const [description, setdescription] = useState(details && details.description || '')
     const [descriptionCount, setdescriptionCount] = useState(description.length);
-    const [startYear, setstartYear] = useState("");
-    const [endYear, setendYear] = useState("");
-    const [organizationName, setorganizationName] = useState('');
-    const [location, setlocation] = useState('');
+    const [startYear, setstartYear] = useState(details && details.startYear || "");
+    const [endYear, setendYear] = useState(details && details.endYear ||  "");
+    const [organizationName, setorganizationName] = useState(details && details.organizationName || '');
+    const [location, setlocation] = useState(details && details.location !='Work from Home' && details.location || '');
 
     const submitHandler = async (e) => {
         e.preventDefault();
         try {
-            const { data } = await Instance.post('/resume/add-exp', {
+            const { data } = await Instance.post(`/resume/${update ? `edit-exp/${details && details.id}`: 'add-exp'}`, {
                 profile, 
                 description, 
                 startYear, 
@@ -47,17 +49,17 @@ const JobIntern = ({ type }) => {
                 <form onSubmit={submitHandler}>
                     <div className="mb-4">
                         <label className="block text-gray-700">Profile*</label>
-                        <input onChange={(e) => setprofile(e.target.value)} required value={profile} type="text" placeholder="e.g. Sales & Marketing" className="mt-1 block w-full border px-2 py-2 outline-none border-gray-300 rounded-md shadow-sm" />
+                        <input maxLength={20} onChange={(e) => setprofile(e.target.value)} required value={profile} type="text" placeholder="e.g. Sales & Marketing" className="mt-1 block w-full border px-2 py-2 outline-none border-gray-300 rounded-md shadow-sm" />
                     </div>
 
                     <div className="mb-4">
                         <label className="block text-gray-700">Organization*</label>
-                        <input onChange={(e) => setorganizationName(e.target.value)} required value={organizationName} type="text" placeholder="e.g. Internshala" className="mt-1 block w-full border px-2 py-2 outline-none border-gray-300 rounded-md shadow-sm" />
+                        <input maxLength={30} onChange={(e) => setorganizationName(e.target.value)} required value={organizationName} type="text" placeholder="e.g. Internshala" className="mt-1 block w-full border px-2 py-2 outline-none border-gray-300 rounded-md shadow-sm" />
                     </div>
 
                     <div className="mb-4">
                         <label className="block text-gray-700">Location*</label>
-                        <input onChange={(e) => setlocation(e.target.value)} required value={location} type="text" placeholder="e.g. Mumbai" disabled={workingHome} className="mt-1 block w-full border px-2 py-2 outline-none border-gray-300 rounded-md shadow-sm" />
+                        <input maxLength={20} onChange={(e) => setlocation(e.target.value)} required value={location} type="text" placeholder="e.g. Mumbai" disabled={workingHome} className="mt-1 block w-full border px-2 py-2 outline-none border-gray-300 rounded-md shadow-sm" />
                     </div>
 
                     <div className="mb-4 flex items-center">

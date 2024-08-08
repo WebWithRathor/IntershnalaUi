@@ -1,29 +1,34 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Instance } from '../../utils/Axios';
+import { useDispatch } from 'react-redux';
+import { loadStudent } from '../../store/actions/studentAction';
 
-const Projects = () => {
+const Projects = ({update}) => {
+    const details = useLocation().state
     const navigate = useNavigate();
-    const [Title, setTitle] = useState('');
-    const [URL, setURL] = useState('')
-    const [Online, setOnline] = useState(false);
-    const [description, setdescription] = useState('')
+    const dispatch = useDispatch();
+    const [Title, setTitle] = useState( details && details.Title ||'');
+    const [URL, setURL] = useState( details && details.URL ||'')
+    const [Online, setOnline] = useState( details && details.Online ||false);
+    const [description, setdescription] = useState( details && details.description ||'')
     const [descriptionCount, setdescriptionCount] = useState(description.length);
-    const [startMonth, setstartMonth] = useState("");
-    const [endMonth, setendMonth] = useState("");
-    const [organizationName, setorganizationName] = useState('');
-    const [location, setlocation] = useState('');
+    const [startMonth, setstartMonth] = useState( details && details.startMonth ||"");
+    const [endMonth, setendMonth] = useState( details && details.endMonth ||"");
+    const [organizationName, setorganizationName] = useState( details && details.organizationName ||'');
+    const [location, setlocation] = useState( details && details.location ||'');
 
     const submitHandler = async (e) => {
         e.preventDefault();
         try {
-            const { data } = await Instance.post('/resume/add-pro', {
+            const { data } = await Instance.post(`/resume/${update ? `edit-pro/${details && details.id}` : 'add-pro'}`, {
                 Title, 
                 description, 
                 startMonth, 
                 endMonth, 
                 URL
             });
+            dispatch(loadStudent());
             navigate(-1)
         } catch (error) {
             alert(error.response.data.error.message);
@@ -42,7 +47,7 @@ const Projects = () => {
                 <form onSubmit={submitHandler}>
                     <div className="mb-4">
                         <label className="block text-gray-700">Title*</label>
-                        <input onChange={(e) => setTitle(e.target.value)} required value={Title} type="text" placeholder="e.g. Sales & Marketing" className="mt-1 block w-full border px-2 py-2 outline-none border-gray-300 rounded-md shadow-sm" />
+                        <input maxLength={20} onChange={(e) => setTitle(e.target.value)} required value={Title} type="text" placeholder="e.g. Sales & Marketing" className="mt-1 block w-full border px-2 py-2 outline-none border-gray-300 rounded-md shadow-sm" />
                     </div>
                     <div className="grid grid-cols-2 gap-4 mb-4">
                         <div>
@@ -62,7 +67,7 @@ const Projects = () => {
                     <div className="mb-4">
                         <label className="block text-gray-700">Project link </label>
                         <p className='text-sm text-gray-600 my-1'>If you have multiple project links or an offline project, upload and provide link to google drive</p>
-                        <input onChange={(e) => setURL(e.target.value)} required value={URL} type="text" placeholder="e.g. https://projectlink.com" className="mt-2 block w-full border px-2 py-2 outline-none border-gray-300 rounded-md shadow-sm" />
+                        <input  onChange={(e) => setURL(e.target.value)} required value={URL} type="url" placeholder="e.g. https://projectlink.com" className="mt-2 block w-full border px-2 py-2 outline-none border-gray-300 rounded-md shadow-sm" />
                     </div>
                     <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded-md shadow-sm hover:bg-blue-600">Save</button>
                 </form>
