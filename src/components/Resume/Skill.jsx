@@ -1,25 +1,24 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Instance } from '../../utils/Axios';
 import { loadStudent } from '../../store/actions/studentAction';
 
-const Skill = () => {
-
+const Skill = ({update}) => {
+    const details = useLocation().state
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [Skill, setSkill] = useState('');
+    const [Skill, setSkill] = useState( details && details.Skill ||'');
 
     const AddSkill = async () => {
             try {
-                const { data } = await Instance.post('/resume/add-skill', {
+                const { data } = await Instance.post(`/resume/${update ? `edit-skill/${details && details.id}` : 'add-skill'}`, {
                     Skill
                 });
                 dispatch(loadStudent());
                 navigate(-1)
             } catch (error) {
                 console.log(error);
-                
                 alert(error.response.data.error.message);
             }
     }

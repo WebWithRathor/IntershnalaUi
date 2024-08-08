@@ -1,19 +1,19 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Instance } from '../../utils/Axios';
 import { useDispatch } from 'react-redux';
 import { loadStudent } from '../../store/actions/studentAction';
 
-const Accomplishment = () => {
-
+const Accomplishment = ({update}) => {
+    const details = useLocation().state
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [description, setdescription] = useState('');
+    const [description, setdescription] = useState(details && details.description || '');
     const [descriptionCount, setdescriptionCount] = useState(description.length);
 
     const AddAccomplishment = async () => {
         try {
-            const { data } = await Instance.post('/resume/add-accomp', {
+            const { data } = await Instance.post(`/resume/${update ? `edit-accomp/${details && details.id}` : 'add-accomp'}`, {
                 description
             });
             dispatch(loadStudent());

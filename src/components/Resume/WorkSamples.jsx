@@ -1,16 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { loadStudent } from '../../store/actions/studentAction';
 import { Instance } from '../../utils/Axios';
 
-const WorkSamples = ({ worksample }) => {
+const WorkSamples = ({ worksample, update }) => {
+    const details = useLocation().state;
     const navigate = useNavigate()
     const dispatch = useDispatch();
     const [workSamples, setWorkSamples] = useState(worksample || []);
-    const [Work, setWork] = useState('');
-    const [WorkIcon, setWorkIcon] = useState('');
-    const [WorkName, setWorkName] = useState('');
+    const [Work, setWork] = useState(details && details.url || '');
+    const [WorkIcon, setWorkIcon] = useState(details && details.WorkIcon || '');
+    const [WorkName, setWorkName] = useState(details && details.WorkName || '');
     const workInput = useRef(null);
 
     const icons = [
@@ -37,14 +38,15 @@ const WorkSamples = ({ worksample }) => {
     ];
 
     const submit = async (e) => {
-        if (e.target.value.includes('http://')) {
+        if (e.target.value.includes('http://') || e.target.value.includes('https://')) {
             try {
-                const { data } = await Instance.post('/resume/add-work', {
+                const { data } = await Instance.post(`/resume/${update ? `edit-work/${details && details.id}` : 'add-work'}`, {
                     WorkName,
                     url: Work,
                     WorkIcon
                 });
                 setWork('');
+                navigate(-1);
                 dispatch(loadStudent());
             } catch (error) {
                 alert(error.response.data.error.message);
@@ -60,10 +62,10 @@ const WorkSamples = ({ worksample }) => {
         setWorkIcon(icon.icon);
         setWorkName(icon.name);
     };
-
     useEffect(() => {
-        console.log(worksample);
-    }, [worksample])
+        if (update) workInput.current.style.display = 'block';
+    }, [worksample]);
+
 
     return (
         <div className='h-screen scroller-none w-full bg-black/[.5] fixed top-0 left-0 z-[99] flex items-center justify-center overflow-y-auto py-32' >
