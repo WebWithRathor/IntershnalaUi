@@ -1,16 +1,17 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { loadStudent } from '../../store/actions/studentAction';
 import { Instance } from '../../utils/Axios';
 
-const Responsibility = () => {
+const Responsibility = ({update}) => {
+    const details = useLocation().state
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [description, setDescription] = useState('');
+    const [description, setDescription] = useState(details && details.description ||'');
     const handleSave = async () => {
         try {
-            const { data } = await Instance.post('/resume/add-res', {
+            const { data } = await Instance.post(`/resume/${update ? `edit-res/${details && details.id}` : 'add-res'}`, {
                 description
             });
             dispatch(loadStudent());
