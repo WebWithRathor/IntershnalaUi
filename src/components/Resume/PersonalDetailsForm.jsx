@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { Instance } from '../../utils/Axios';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,20 +14,49 @@ const PersonalDetailsForm = () => {
     const [contact, setContactNumber] = useState('');
     const [city, setCurrentCity] = useState('');
     const [gender, setGender] = useState('');
+    const [imageSrc, setImageSrc] = useState('');
+    const fileInputRef = useRef(null);
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const imageUrl = URL.createObjectURL(file);
+            setImageSrc(imageUrl);
+        }
+    };
+
+    const handleUploadClick = () => {
+        fileInputRef.current.click();
+    };
+
 
 
     const handleSubmit = async (e) => {
+
         e.preventDefault();
-        await Instance.post('/student/update', {
-            firstname,
-            lastname,
-            email,
-            contact,
-            city,
-            gender,
-        });
-        dispatch(loadStudent());
-        navigate(-1);
+        try {
+            if (fileInputRef.current.files[0]) {
+                await Instance.post('/student/avatar', {
+                    avatar: fileInputRef.current.files[0]
+                }, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+            }
+            await Instance.post('/student/update', {
+                firstname,
+                lastname,
+                email,
+                contact,
+                city,
+                gender,
+            });
+            dispatch(loadStudent());
+            navigate(-1);
+        } catch (error) {
+            alert(error.response.data.error.message);
+        }
+
     };
 
 
@@ -39,19 +68,21 @@ const PersonalDetailsForm = () => {
             setGender(student.gender);
             setLastName(student.lastname);
             setEmail(student.email);
+            setImageSrc(student.avatar.url)
         }
     }, [student])
 
     return (
-        <div className='h-screen scroller-none w-full bg-black/[.5] fixed top-0 left-0 z-[99] flex items-center justify-center ' >
-            <div className="p-6 w-2/5 mx-auto bg-white relative shadow-lg rounded-lg">
-            <i onClick={() => navigate(-1)} className='fa-xmark fa-solid absolute right-5 top-3 cursor-pointer text-lg'></i>
-                <form onSubmit={handleSubmit}>
+        <div className='h-screen scroller-none w-full bg-black/[.5] fixed top-0 left-0 z-[99] flex py-10 justify-center overflow-y-auto' >
+            <div className="p-6 w-2/5 mx-auto h-max bg-white relative shadow-lg rounded-lg">
+                <i onClick={() => navigate(-1)} className='fa-xmark fa-solid absolute right-5 top-3 cursor-pointer text-lg'></i>
+                <form onSubmit={handleSubmit} encType='multipart/form-data' >
                     <h2 className="text-2xl font-semibold mb-4 text-gray-800">Personal details</h2>
 
                     <div className="mb-4">
-                        <label className="block text-gray-600 font-medium mb-1">First name</label>
+                        <label className="block text-gray-600 font-medium mb-1">First name*</label>
                         <input
+                            required
                             type="text"
                             value={firstname}
                             onChange={(e) => setFirstName(e.target.value)}
@@ -60,8 +91,9 @@ const PersonalDetailsForm = () => {
                     </div>
 
                     <div className="mb-4">
-                        <label className="block text-gray-600 font-medium mb-1">Last name (Optional)</label>
+                        <label className="block text-gray-600 font-medium mb-1">Last name*</label>
                         <input
+                            required
                             type="text"
                             value={lastname}
                             onChange={(e) => setLastName(e.target.value)}
@@ -69,6 +101,23 @@ const PersonalDetailsForm = () => {
                         />
                     </div>
 
+                    <div className="flex flex-col items-start mb-4">
+                        <img src={imageSrc} alt="Selected" className="max-w-48 max-h-48 object-cover border rounded mb-4" />
+                        <input
+                            type="file"
+                            ref={fileInputRef}
+                            onChange={handleFileChange}
+                            className="hidden"
+                            accept="image/*"
+                        />
+                        <button
+                            onClick={handleUploadClick}
+                            type='button'
+                            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition"
+                        >
+                            Upload Image
+                        </button>
+                    </div>
 
                     <div className="mb-4">
                         <label className="block text-gray-600 font-medium mb-1">Email</label>
@@ -82,8 +131,9 @@ const PersonalDetailsForm = () => {
                     </div>
 
                     <div className="mb-4">
-                        <label className="block text-gray-600 font-medium mb-1">Contact number</label>
+                        <label className="block text-gray-600 font-medium mb-1">Contact number*</label>
                         <input
+                            required
                             type="text"
                             value={contact}
                             onChange={(e) => setContactNumber(e.target.value)}
