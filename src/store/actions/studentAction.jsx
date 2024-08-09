@@ -10,9 +10,11 @@ export const loadStudent = (navigate)=> async (dispatch , getstate)=>{
         localStorage.setItem('isLoggedIn', false);
         if(error.response.data.error.message === 'jwt expired'){
             alert('please login first');
-            navigate('/')
         }else{
-            alert(error.response.data.error.message);
+            console.log(`%c${error.response.data.error.message}`,
+            'background-color: red; color: white; padding: 4px;'
+            );
         }
+        navigate('/');
     }
 }
