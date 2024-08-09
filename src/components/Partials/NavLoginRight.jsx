@@ -2,17 +2,20 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { loadStudent } from '../../store/actions/studentAction';
+import { Instance } from '../../utils/Axios';
 
-const NavLoginRight = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate()
-  const {pathname} = useLocation()
-  const student = useSelector(store=>store.studentSlice.student);
-  useEffect(()=>{
-    if(student === null && pathname != '/'){
-      dispatch(loadStudent(navigate));
+const NavLoginRight = ({student}) => {
+  const logout = async ()=>{
+    try {
+      await Instance.post('/student/signout');
+      localStorage.setItem('isLoggedIn',false);
+      location.reload();
+      alert('Successfully logged out');
+    } catch (error) {
+      alert(error.response.data.error.message)
     }
-  })
+  }
+
   
 
   return (
@@ -30,13 +33,15 @@ const NavLoginRight = () => {
           </div>
           <ul className="p-2 space-y-1 flex flex-col">
             <Link to='/' className="hover:bg-gray-100 p-2 font-medium rounded-md cursor-pointer">Home</Link>
-            <Link className="hover:bg-gray-100 p-2 text-sm  rounded-md cursor-pointer">My AppLinkcations</Link>
+            <Link className="hover:bg-gray-100 p-2 text-sm  rounded-md cursor-pointer">My Applications</Link>
             <Link className="hover:bg-gray-100 p-2 text-sm  rounded-md cursor-pointer">My Bookmarks</Link>
             <Link to='/profile/student/resume' className="hover:bg-gray-100 p-2 text-sm  rounded-md cursor-pointer">Edit Resume</Link>
-            <Link className="hover:bg-gray-100 p-2 text-sm  rounded-md cursor-pointer">Edit Preferences</Link>
-            <Link className="hover:bg-gray-100 p-2 text-sm  rounded-md cursor-pointer">Safety Tips</Link>
-            <Link className="hover:bg-gray-100 p-2 text-sm  rounded-md cursor-pointer">Help Center</Link>
-            <Link className="hover:bg-gray-100 p-2 text-sm  rounded-md cursor-pointer">More  </Link>
+            <div className="hover:bg-gray-100 p-2 group/drop text-sm  rounded-md cursor-pointer ">More  
+              <div className="dropdown hidden group-hover/drop:block top-full w-full mt-2">
+                <Link to='/changepassword' className='hover:bg-white px-1 py-2 text-sm  rounded-md cursor-pointer block'>Change Password</Link>
+                <Link onClick={()=>logout()} className='hover:bg-white px-1 py-2 text-sm  rounded-md cursor-pointer block'>Logout</Link>
+              </div>
+            </div>
           </ul>
         </div>
       </div>

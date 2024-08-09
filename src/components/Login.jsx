@@ -20,6 +20,7 @@ const Login = () => {
                 password,
             });
             localStorage.setItem('isLoggedIn', true);
+            localStorage.setItem('type', type);
             navigate('/')
         } catch (error) {
             alert(error.response.data.error.message);
