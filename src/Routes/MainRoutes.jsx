@@ -15,11 +15,15 @@ import WorkSamples from '../components/Resume/WorkSamples'
 import Accomplishment from '../components/Resume/Accomplishment'
 import { useSelector } from 'react-redux'
 import PersonalDetailsForm from '../components/Resume/PersonalDetailsForm'
+import ChangePassword from '../components/ChangePassword'
+import CompleteEmploye from '../components/CompleteEmploye'
 
 const MainRoutes = () => {
   const student = useSelector(store=>store.studentSlice.student);
   return (
     <Routes>
+      <Route path="/changepassword" element={<ChangePassword />} />
+      <Route path="/employe/completeDetails" element={<CompleteEmploye />} />
       <Route path="/" element={<HomeLayout />} >
         <Route path="/login" element={<Login />} />
       </Route>

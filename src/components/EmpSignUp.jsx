@@ -14,18 +14,26 @@ const EmpSignUp = () => {
 
     const submitHandler = (e) => {
         e.preventDefault();
+        employeSignUp();
+
         
     }
     const employeSignUp = async () => {
         try {
-            const data = await Instance.post('/student/signup');
+            const data = await Instance.post('/employe/signup',{
+                email,
+                password, 
+                firstname :firstName, 
+                lastname:lastName, 
+                contact:number
+            });
+            console.log(data);
+            
         } catch (error) {
-            console.log(error.response.data.error);
+            alert(error.response.data.error.message);
         }
     }
-    useEffect(()=>{
-        employeSignUp();
-    },[])
+
     
 
 
