@@ -17,6 +17,7 @@ import { useSelector } from 'react-redux'
 import PersonalDetailsForm from '../components/Resume/PersonalDetailsForm'
 import ChangePassword from '../components/ChangePassword'
 import CompleteEmploye from '../components/CompleteEmploye'
+import PostJobintern from '../components/Job-intern/PostJob-intern'
 
 const MainRoutes = () => {
   const student = useSelector(store=>store.studentSlice.student);
@@ -50,6 +51,7 @@ const MainRoutes = () => {
       </Route>
       <Route path="/student/signup" element={<SignUp />} />
       <Route path="/Employe/signup" element={<EmpSignUp />} />
+      <Route path="/Employe/profile/post" element={<PostJobintern />} />
     </Routes>
   )
 }

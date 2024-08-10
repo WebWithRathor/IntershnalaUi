@@ -28,7 +28,7 @@ const NavLoginRight = ({student}) => {
         <i className="fa-solid fa-caret-down  group-hover:animate-[bounce_1s_linear_1.5] ml-1 fa-md"></i>
         <div className="absolute top-full group-hover:scale-100 transition-all origin-top-right scale-0 right-0 w-[17vw] bg-white border border-gray-200 rounded-md shadow-lg">
           <div className=" p-3 border-b">
-            <h1 className='font-medium'>Devraj rathor</h1>
+            <h1 className='font-medium'>{student && student.firstname + " " + student.lastname}</h1>
             <h1 className='text-sm'>{student && student.email}</h1>
           </div>
           <ul className="p-2 space-y-1 flex flex-col">
