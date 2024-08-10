@@ -27,8 +27,7 @@ const EmpSignUp = () => {
                 lastname:lastName, 
                 contact:number
             });
-            console.log(data);
-            
+    navigate('/');            
         } catch (error) {
             alert(error.response.data.error.message);
         }

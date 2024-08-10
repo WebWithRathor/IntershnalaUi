@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Nav from './Partials/Nav'
 import { Instance } from '../utils/Axios';
 import { useNavigate } from 'react-router-dom';
@@ -25,8 +25,8 @@ const CompleteEmploye = () => {
         e.preventDefault();
         try {
             const {data} = await Instance.post('/employe/update',{
-                organizationname : orgName,
-                city: isIndependentPractitioner ? 'Self-Employed' : orgCity,
+                organizationname : isIndependentPractitioner ? 'Self-Employed' : orgName,
+                city: orgCity,
                 description:orgDescription
             });
             navigate('/')
@@ -34,8 +34,11 @@ const CompleteEmploye = () => {
         } catch (error) {
             alert(error.response.data.error.message);
         }
-        console.log(file);
     }
+
+    useEffect(()=>{
+        setOrgName('');
+    },[isIndependentPractitioner])
 
     return (
         <>
