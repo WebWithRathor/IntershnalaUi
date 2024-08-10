@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 const NavRight = () => {
   return (
-    <div className="right flex gap-5 items-center">
+    <div className="right py-4 flex gap-5 items-center">
             <div className="search  flex gap-2 items-center">
             <i className="fa-solid text-sm fa-magnifying-glass"></i>
             <h1 className=''>Search</h1>
