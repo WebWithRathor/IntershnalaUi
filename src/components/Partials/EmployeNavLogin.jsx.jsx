@@ -20,7 +20,7 @@ const EmployeNavLogin = ({employe}) => {
 
   return (
     <div className='flex items-center'>
-      <h1 className=" hover:bg-blue-50 h-full py-5 px-4 cursor-pointer font-medium group">Internships <i className="fa-solid fa-caret-down  group-hover:animate-[bounce_1s_linear_1.5] ml-1 fa-md"></i></h1>
+      <Link to={'/internlist'}><h1 className=" hover:bg-blue-50 h-full py-5 px-4 cursor-pointer font-medium group">Internships <i className="fa-solid fa-caret-down  group-hover:animate-[bounce_1s_linear_1.5] ml-1 fa-md"></i></h1></Link>
       <h1 className=" hover:bg-blue-50 h-full py-5 px-4 cursor-pointer font-medium group">Jobs <i className="fa-solid fa-caret-down  group-hover:animate-[bounce_1s_linear_1.5] ml-1 fa-md"></i></h1>
       <i className="fa-regular fa-comments ml-5 text-lg"></i>
       <div className="profile flex items-center h-full py-4 px-4 gap-1 group hover:bg-blue-50 cursor-pointer relative  ml-8">

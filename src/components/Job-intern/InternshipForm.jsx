@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Instance } from '../../utils/Axios';
+import { loadStudent } from '../../store/actions/studentAction';
+import { useDispatch } from 'react-redux';
 
 const InternshipForm = ({ employe , navigate }) => {
     const [orgName, setOrgName] = useState('');
@@ -15,14 +17,15 @@ const InternshipForm = ({ employe , navigate }) => {
     const [stipend, setStipend] = useState('Negotiable');
     const [perks, setPerks] = useState('');
     const [assessments, setAssessments] = useState('');
+    
 
     const submitHandle = async (e) => {
         e.preventDefault();
 
         try {
             const { data } = await Instance.post('/employe/internship/create', {
-                profile, skill: skill.split(',').map(e => e),
-                internshipType, openings, from, to, duration, responsibility,
+                profile, skill,
+                internshiptype:internshipType, openings, from, to, duration, responsibility,
                 "stipend.status": stipend,
                 "stipend.amount": amount,
                 perks, assessments
@@ -74,12 +77,11 @@ const InternshipForm = ({ employe , navigate }) => {
                 <select
                     id="internshipType"
                     value={internshipType}
-                    onChange={(e) => setStipend(e.target.value)}
+                    onChange={(e) => setInternshipType(e.target.value)}
                     className="w-full p-3 border outline-none border-gray-300 rounded-lg"
                 >
-                    <option value="Negotiable">Remote</option>
-                    <option value="Fixed">Office Work</option>
-                    <option value="Performance Based">Hybrid</option>
+                    <option value="Remote">Remote</option>
+                    <option value="In office">In office</option>
                 </select>
             </div>
             <div className="mb-4">
@@ -162,10 +164,11 @@ const InternshipForm = ({ employe , navigate }) => {
                     onChange={(e) => setStipend(e.target.value)}
                     className="w-full p-3 border outline-none border-gray-300 rounded-lg"
                 >
+
                     <option value="Negotiable">Negotiable</option>
                     <option value="Fixed">Fixed</option>
-                    <option value="Performance Based">Performance Based</option>
-                    <option value="Unpaid">Unpaid</option>
+                    <option value="performance based">Performance Based</option>
+                    <option value="unpaid">Unpaid</option>
                 </select>
             </div>
 

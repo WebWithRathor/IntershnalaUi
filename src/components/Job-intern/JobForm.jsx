@@ -14,7 +14,6 @@ const JobForm = ({ employe, navigate }) => {
 
     const submitHandle = async (e) => {
         e.preventDefault();
-        console.log({description,jobtype});
         
         try {
             const { data } = await Instance.post('/employe/job/create', {
@@ -28,7 +27,7 @@ const JobForm = ({ employe, navigate }) => {
                 perks,
                 assessments,
             });
-            console.log(data);
+            navigate('/');
             
         } catch (error) {
             console.log(error);

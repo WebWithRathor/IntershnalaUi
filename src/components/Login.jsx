@@ -40,7 +40,7 @@ const Login = () => {
                 <input onChange={(e) => setEmail(e.target.value)} value={email} type="email" id="email" name="email" placeholder='john@example.com' className="w-full border rounded py-2 px-3 mt-2 focus:outline-none focus:ring-blue-500" required />
                 <label htmlFor="password">Password</label>
                 <input onChange={(e) => setPassword(e.target.value)} value={password} type="password" id="password" name="password" placeholder='Must be atleast 6 Characters' className="w-full border rounded py-2 px-3 mt-2 focus:outline-none focus:ring-blue-500" required />
-                <a className='font-semibold text-blue-500  ml-auto mt-4 w-max block' href="">Forgot Password ?</a>
+                <Link to={'/forgetpass'} className='font-semibold text-blue-500  ml-auto mt-4 w-max block' href="">Forgot Password ?</Link>
                 <button className='px-4 w-full mt-5 py-2 rounded font-semibold bg-sky-500 border-2  border-sky-500 hover:bg-transparent hover:text-sky-500 transition-all text-white'>Login</button>
                 <p className='text-sm text-center mt-2'>New to Internshala? Register (<Link to='/student/signup' className='font-semibold text-blue-500' href="">Student</Link> / <Link to='/employe/signup' className='font-semibold text-blue-500' href=''>Company</Link>)</p>
 
