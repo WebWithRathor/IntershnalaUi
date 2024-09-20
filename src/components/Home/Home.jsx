@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import Posters from './Posters'
-import Show from './Show'
 import TopCompanies from './TopCompanies'
 import { Outlet, useNavigate } from 'react-router-dom'
 import Nav from '../Partials/Nav'
@@ -14,6 +13,8 @@ const HomeLayout = () => {
   const [isLoggedIn, setisLoggedIn] = useState(JSON.parse(localStorage.getItem('isLoggedIn')) || false);
   const type = localStorage.getItem('type');
   const student = useSelector(store => store.studentSlice.student);
+  console.log(student);
+  
   const employe = useSelector(store => store.employeSlice.employe);
 
 
@@ -44,8 +45,6 @@ const HomeLayout = () => {
       }
 
       <Posters />
-      <Show type='Intership' />
-      <Show type='Job' />
       <TopCompanies />
       <Outlet />
     </div>

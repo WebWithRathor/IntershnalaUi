@@ -1,12 +1,18 @@
 import React from 'react'
+import { dataChanger } from '../../utils/date';
+import { Link } from 'react-router-dom';
 
 const CardOpp = ({details}) => {
   
+const date =  dataChanger(details.createdAt);
+
+  
+
   return (
-    <div className="w-[40%] mx-auto bg-white rounded-lg shadow-md p-4 flex justify-between items-center">
+    <Link to={'showDetails'} state={details} className="w-[40%] mx-auto bg-white rounded-lg shadow-md p-4 flex justify-between items-center">
       {/* Left section with details */}
       <div>
-        <h2 className="text-lg font-semibold">{details.title}</h2>
+        <h2 className="text-lg font-semibold">{details.profile}</h2>
         <p className="text-sm mt-1 text-gray-500">Hamari Pahchan NGO <span className="text-blue-500">Actively hiring</span></p>
         
         <div className="flex space-x-6 mt-3 text-sm text-gray-500">
@@ -26,22 +32,11 @@ const CardOpp = ({details}) => {
 
         <div className="flex items-center space-x-4 mt-5 text-xs text-gray-500">
           <div className="flex items-center space-x-1">
-            <span className="bg-green-100 text-green-600 px-2 py-1 rounded-md">2 days ago</span>
+            <span className="bg-green-100 text-green-600 px-2 py-1 rounded-md">{date}</span>
           </div>
-          <span>Internship with job offer</span>
-          <span>Part time</span>
         </div>
       </div>
-
-      {/* Right section with logo */}
-      <div>
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Logo_NGO.jpg/320px-Logo_NGO.jpg" // Replace with actual image URL
-          alt="NGO Logo"
-          className="w-12 h-12 rounded-full"
-        />
-      </div>
-    </div>
+    </Link>
   )
 }
 
