@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import Nav from '../Partials/Nav'
+'../Partials/Nav'
 import { Link, Outlet, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux';
 import { Instance } from '../../utils/Axios';
@@ -15,7 +15,7 @@ const Resume = () => {
 
     return (
         <>
-            <Nav />
+            
             <div className='h-full w-full pt-32'>
                 <h1 onClick={() => navigate(-1)} className='flex cursor-pointer items-center gap-2 text-blue-600 text-[1vw] font-medium  absolute left-20' > <i className='fa-solid fa-arrow-left-long mt-1'></i> Back</h1>
                 <h1 className='text-3xl font-medium text-center mt-10'>Resume</h1>

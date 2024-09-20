@@ -23,12 +23,16 @@ import InternshipList from "../components/Partials/InternshipList";
 import ShowSingleIntership from "../components/Partials/ShowSingleIntership";
 import Joblist from "../components/Partials/Joblist";
 import ShowSingleJob from "../components/Partials/ShowSingleJob";
+import Myinternship from "../components/Myinternship";
+import Myjob from "../components/Myjob";
 
 const MainRoutes = () => {
   const student = useSelector((store) => store.studentSlice.student);
   return (
     <Routes>
       <Route path="/changepassword" element={<ChangePassword />} />
+      <Route path="/myintern" element={<Myinternship />} />
+      <Route path="/myjob" element={<Myjob />} />
       <Route path="/forgetpass" element={<ForgetPassword />} />
       <Route path="/internlist" element={<InternshipList />}>
         <Route

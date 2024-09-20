@@ -2,19 +2,16 @@ import React, { useEffect, useState } from 'react'
 import Posters from './Posters'
 import TopCompanies from './TopCompanies'
 import { Outlet, useNavigate } from 'react-router-dom'
-import Nav from '../Partials/Nav'
 import { useDispatch, useSelector } from 'react-redux'
 import { loadStudent } from '../../store/actions/studentAction'
 import { loadEmploye } from '../../store/actions/employeAction'
 
 const HomeLayout = () => {
+  const [isLoggedIn, setisLoggedIn] = useState(JSON.parse(localStorage.getItem('isLoggedIn')) || false);
   const dispatch = useDispatch();
   const navigate = useNavigate()
-  const [isLoggedIn, setisLoggedIn] = useState(JSON.parse(localStorage.getItem('isLoggedIn')) || false);
   const type = localStorage.getItem('type');
   const student = useSelector(store => store.studentSlice.student);
-  console.log(student);
-  
   const employe = useSelector(store => store.employeSlice.employe);
 
 
@@ -33,8 +30,6 @@ const HomeLayout = () => {
 
   return (
     <div className='h-full pt-32 w-full'>
-      <Nav isLoggedIn={isLoggedIn} student={student} employe={employe} />
-
       <div className="">
         <h1 className='text-[3vw] text-zinc-700 font-bold text-center mt-10'>{student ? 'Make your dream career a reality' : 'Make your dream a reality'}</h1>
         <img className='h-14 mx-auto w-[35vw] pl-40 object-[-27px_1px]' src="https://internshala.com/static/images/home/sprites/underline_fire.png" alt="" />

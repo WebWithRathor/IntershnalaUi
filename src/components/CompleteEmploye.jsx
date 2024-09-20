@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Nav from './Partials/Nav'
+'./Partials/Nav'
 import { Instance } from '../utils/Axios';
 import { useNavigate } from 'react-router-dom';
 

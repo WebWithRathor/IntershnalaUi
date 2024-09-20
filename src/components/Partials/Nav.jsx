@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { loadStudent } from '../../store/actions/studentAction';
 import EmployeNavLogin from './EmployeNavLogin.jsx';
+import { loadEmploye } from '../../store/actions/employeAction.jsx';
 
 const Nav = ({isLoggedIn,student ,employe}) => {
   const dispatch = useDispatch();
@@ -12,10 +13,11 @@ const Nav = ({isLoggedIn,student ,employe}) => {
   const { pathname } = useLocation()
 
   useEffect(() => {
-    if (student === null && pathname != '/') {
-      dispatch(loadStudent(navigate));
+    if (pathname != '/') {
+      if(student === null)dispatch(loadStudent(navigate));
+      if(employe === null)dispatch(loadEmploye(navigate));
     }
-  },[student])
+  },[student,employe])
 
 
   return (

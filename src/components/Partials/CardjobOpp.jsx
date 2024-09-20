@@ -2,14 +2,13 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import { dataChanger } from '../../utils/date';
 
-const CardjobOpp = ({details}) => {
+const CardjobOpp = ({details,Noapply}) => {
     const date = dataChanger(details.createdAt);
-    console.log(details);
     
 
     return (
       <Link 
-        to={'showDetails'} 
+      to={Noapply ? '' : 'showDetails'}
         state={details} 
         className="w-[40%] mx-auto bg-white rounded-lg shadow-md p-4 flex justify-between items-center"
       >
@@ -33,9 +32,10 @@ const CardjobOpp = ({details}) => {
           </div>
   
           <div className="flex items-center space-x-4 mt-5 text-xs text-gray-500">
-            <div className="flex items-center space-x-1">
-              <span className="bg-green-100 text-green-600 px-2 py-1 rounded-md">{date}</span>
-            </div>
+          <div className="flex items-center space-x-2">
+            <span className="bg-green-100 text-green-600 px-2 py-1 rounded-md">{date}</span>
+            <h1 className='font-semibold'>Candidates : {details.student.length}</h1>
+          </div>
           </div>
         </div>
       </Link>

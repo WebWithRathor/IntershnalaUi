@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Nav from "./Nav";
+"./Nav";
 import { Instance } from "../../utils/Axios";
 import { Outlet } from "react-router-dom";
 import CardjobOpp from "./CardjobOpp";
@@ -18,7 +18,7 @@ const Joblist = () => {
 
   return (
     <>
-      <Nav />
+      
       <div className="h-screen w-full pb-20 flex flex-col overflow-y-auto gap-4 bg-blue-50 pt-28">
         {jobs.length != 0 ? (
           jobs.map((job, i) => {

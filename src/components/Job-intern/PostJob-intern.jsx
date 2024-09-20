@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Nav from '../Partials/Nav'
+'../Partials/Nav'
 import { useDispatch, useSelector } from 'react-redux';
 import { loadEmploye } from '../../store/actions/employeAction';
 import { Instance } from '../../utils/Axios';

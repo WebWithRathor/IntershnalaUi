@@ -55,9 +55,6 @@ const NavLoginRight = ({ student }) => {
             <Link className="hover:bg-gray-100 p-2 text-sm  rounded-md cursor-pointer">
               My Applications
             </Link>
-            <Link className="hover:bg-gray-100 p-2 text-sm  rounded-md cursor-pointer">
-              My Bookmarks
-            </Link>
             <Link
               to="/profile/student/resume"
               className="hover:bg-gray-100 p-2 text-sm  rounded-md cursor-pointer"

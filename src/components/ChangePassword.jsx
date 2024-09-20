@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Nav from './Partials/Nav'
+'./Partials/Nav'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Instance } from '../utils/Axios';
 
@@ -50,7 +50,7 @@ const ChangePassword = () => {
 
     return (
         <>
-            <Nav />
+            
             <div className="flex justify-center items-center min-h-screen bg-gray-100">
                 <h1 onClick={() => navigate(-1)} className='flex cursor-pointer items-center gap-2 text-blue-600 text-[1vw] font-medium  absolute left-20 top-24' > <i className='fa-solid fa-arrow-left-long mt-1'></i> Back</h1>
 

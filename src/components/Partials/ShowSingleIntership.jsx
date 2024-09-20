@@ -7,14 +7,14 @@ import { loadStudent } from "../../store/actions/studentAction";
 const ShowSingleInternship = ({ student }) => {
   const [internship, setInternship] = useState(null);
 
-  let { state } = useLocation();
+  let { details } = useLocation().state;
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const applyHandle = async () => {
     try {
       const { data } = await Instance.post(
-        `/student/applyInternship/${state._id}`
+        `/student/applyInternship/${details._id}`
       );
       alert("Application submitted successfully!");
       navigate('/internlist')
@@ -25,8 +25,8 @@ const ShowSingleInternship = ({ student }) => {
 
   useEffect(() => {
     if (student === null) dispatch(loadStudent());
-    setInternship(state);
-  }, [state, student]);
+    setInternship(details);
+  }, [details, student]);
 
   return (
     <>
