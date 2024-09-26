@@ -12,8 +12,8 @@ export const loadStudent = (navigate)=> async (dispatch , getstate)=>{
             alert('please login first');
         }else{
             console.log(`%c${error.response.data.error.message}`,
-            'background-color: red; color: white; padding: 4px;'
-            );
+                'background-color: #FF5C5D; font-weight:100; font-size:20px; color: white; width:100%; padding: 10px;'
+                );
         }
         navigate('/');
     }

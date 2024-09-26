@@ -13,7 +13,7 @@ export const loadEmploye = (navigate)=> async (dispatch , getstate)=>{
             alert('please login first');
         }else{
             console.log(`%c${error.response.data.error.message}`,
-            'background-color: red; color: white; padding: 4px;'
+            'background-color: blue; color: white; padding: 20px;'
             );
         }
         navigate('/');
